@@ -1,0 +1,127 @@
+#BoxLayout:
+#    orientation: "horizontal"
+#    ActionBar:
+#        pos_hint: {'top':1}
+#        ActionView:
+#            use_separator: True
+#
+#    Button:
+#        #new Button
+#        text: "Hello World"
+
+
+ActionBar:
+    pos_hint: { 'top':1}
+    ActionView:
+        use_separator: True
+        ActionPrevious:
+            title: 'Example App'
+            with_previous: False
+        ActionButton:
+            text: 'File'
+        ActionButton:
+            text: 'Edit'
+        ActionGroup:
+            text: 'Tools'
+            mode: 'spinner'
+            ActionButton:
+                text: 'Tool1'
+            ActionButton:
+                text: 'Tool2'
+            ActionButton:
+                text: 'Tool3'
+            ActionButton:
+                text: 'Tool4'
+
+
+
+<MyGrid>:
+
+    wd_bottom : wd_bottom
+    wd_up : wd_up
+
+    wd_piedra : wd_piedra
+    wd_papel : wd_papel
+    wd_tijera : wd_tijera
+    wd_lagarto : wd_lagarto
+    wd_spock : wd_spock
+
+    GridLayout: # This is the `root` widget of the main app class
+        cols: 2
+        #size: root.width, root.height-100
+        size: root.width, root.height
+
+        GridLayout:
+            cols: 1
+            Button:
+                id: wd_piedra
+                text: "Piedra"
+                color_disabled: 0,0,0,.4
+                on_press: root.btn("piedra")
+
+            Button:
+                id: wd_papel
+                text: "Papel"
+                color_disabled: 0,0,0,.4
+                #disabled_color: 1,1,1,1
+                on_press:
+                    root.btn("papel")
+
+
+            Button:
+                id: wd_tijera
+                text: "Tijera"
+                color_disabled: 0,0,0,.4
+                on_press: root.btn("tijera")
+
+            Button:
+                id: wd_lagarto
+                text: "Lagarto"
+                color_disabled: 0,0,0,.4
+                on_press: root.btn("lagarto")
+
+            Button:
+                id: wd_spock
+                text: "Spock"
+                color_disabled: 0,0,0,.4
+                on_press:
+                    root.btn("spock")
+
+
+
+        GridLayout:
+            cols:1
+
+            Label:
+                id: wd_up
+                text: "El algoritmo ha escogido..."
+                canvas.before:
+                    Color:
+                        rgba: 0,153,153,0.2
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+            Button:
+                id: wd_bottom
+                disabled: True
+                text: "Es tu turno!"
+                color_diabled: 1,1,1,1 # <-----------
+                on_press:
+                    root.restart()
+
+
+
+
+
+
+#    Label:
+#        text: "g"
+#        id: the_letter_label # Setting an id for a widget lets you refer to it later
+#    Button:
+#        text: "Previous"
+#    Button:
+#        text: "Next"
+#        on_release:
+#            # the keyword `app` references the main app class, so we can call
+#            # the `next_letter` function
+#            app.next_letter()
