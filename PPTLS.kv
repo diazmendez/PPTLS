@@ -27,9 +27,9 @@ ActionBar:
 
 <MyGrid>:
 
+    # objects transfer to main.py
     wd_bottom : wd_bottom
     wd_up : wd_up
-
     wd_piedra : wd_piedra
     wd_papel : wd_papel
     wd_tijera : wd_tijera
@@ -84,7 +84,8 @@ ActionBar:
 
             Label:
                 id: wd_up
-                text: "El algoritmo ha escogido..."
+                text: "El algoritmo ya ha escogido... \n\n\n\n Escoje! Es tu turno!"
+                #color: 1,1,1,1
                 canvas.before:
                     Color:
                         rgba: 0,153,153,0.2
@@ -93,9 +94,12 @@ ActionBar:
                         size: self.size
             Button:
                 id: wd_bottom
-                disabled: True
-                text: "Es tu turno!"
-                color_diabled: 1,1,1,1 # <-----------
+                color: 1,1,1,1
+                color_disable: 1,1,1,1
+                disabled: False
+                text: "(Quieres una pista? click aqui)"
+                color: 1,1,1,1
+
                 on_press:
                     root.restart()
 

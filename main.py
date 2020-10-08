@@ -21,7 +21,7 @@ Sentencias={
 
 JudgingTree={
     "piedra": {
-        "papel": (-1,"papi"),
+        "papel": (-1, "papi"),
         "tijera": (1, "piti"),
         "lagarto": (1, "pila"),
         "spock": (-1, "sppi")
@@ -61,18 +61,32 @@ kv = Builder.load_file("PPTLS.kv")
 
 class MyGrid(Widget):
 
+    #objects from PPTLS.kv
     wd_bottom = ObjectProperty(None)
     wd_up = ObjectProperty(None)
-
     wd_piedra = ObjectProperty(None)
     wd_papel = ObjectProperty(None)
     wd_tijera = ObjectProperty(None)
     wd_lagarto = ObjectProperty(None)
     wd_spock = ObjectProperty(None)
 
+    # random algorithm choice
     selection = lista[randint(0, 4)]
 
+    def pista(self):
+        lista2 = ("la piedra", "el papel", "la tijera", "el lagarto", "spock")
+        n_selection = randint(0, 4)
+        while lista[n_selection] == self.selection :
+            n_selection = randint(0, 4)
+        if JudgingTree[self.selection][lista[n_selection]][0] == 1:
+            ptext = " ...le gana a: " + lista2[n_selection]
+        else:
+            ptext = " ...pierde con: " + lista2[n_selection]
+
+        return ptext
+
     def btn(self, instance):
+        """ after user choice """
 
         wd_bottom = self.wd_bottom
         wd_up = self.wd_up
@@ -83,13 +97,14 @@ class MyGrid(Widget):
         wd_lagarto = self.wd_lagarto
         wd_spock = self.wd_spock
 
-
+        # reset the disabled colors of the options
         wd_piedra.disabled_color = 0,0,0,.4
         wd_papel.disabled_color = 0,0,0,.4
         wd_tijera.disabled_color = 0,0,0,.4
         wd_lagarto.disabled_color = 0,0,0,.4
         wd_spock.disabled_color = 0,0,0,.4
 
+        # disable all options but colorize the instance
         wd_piedra.disabled = True
         if instance == "piedra":
             wd_piedra.disabled_color = 1,1,1,1
@@ -108,7 +123,6 @@ class MyGrid(Widget):
 
         wd_bottom.disabled = False
 
-
         temptext = "El algoritmo escogió:\n\n\n\n\n  " + self.selection.capitalize()
         wd_up.text = temptext
 
@@ -123,7 +137,6 @@ class MyGrid(Widget):
             #current_wd_bottom.text = "Iguales!"
         else:
             print(instance + '  ' + self.selection + ' ' + Sentencias[JudgingTree[instance][self.selection][1]])
-
             #print (JudgingTree[instance][self.selection][0])
 
             if JudgingTree[instance][self.selection][0] == 1:
@@ -136,11 +149,17 @@ class MyGrid(Widget):
 
             wd_bottom.text = juicio
 
-
         pass
 
-
     def restart(self):
+
+        # In case is asking for a hint give it and leave
+        if self.wd_bottom.text == "(Quieres una pista? click aqui)":
+            self.wd_bottom.text = "Lo que el algoritmo escogio... \n\n\n " + self.pista()
+            self.wd_bottom.disabled = True
+            return
+
+        # Otherwise start all over again
 
         self.selection = lista[randint(0, 4)]
 
@@ -160,14 +179,13 @@ class MyGrid(Widget):
 
         wd_bottom.disabled = True
 
-
-        temptext = "El algoritmo ya ha escogido..."
+        temptext = "El algoritmo ya ha escogido... \n\n\n\n Escoje! Es tu turno!"
         wd_up.text = temptext
 
-        temptext = "Es tu turno!"
+        temptext = "(Quieres una pista? click aqui)"
         wd_bottom.text = temptext
         wd_bottom.color = 1,1,1,1
-
+        wd_bottom.disabled = False
 
     pass
 
